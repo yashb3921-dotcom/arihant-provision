@@ -329,7 +329,7 @@ const AdminPanel = ({
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-20">
       <div className="flex justify-between items-center bg-slate-900 text-white p-6 rounded-2xl shadow-xl">
-        <div><h2 className="text-2xl font-bold">Admin Dashboard</h2><div className="flex items-center gap-2 mt-2"><span className="text-sm opacity-80">Shop Status:</span><button onClick={toggleShopStatus} className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold transition-colors ${isShopOpen ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>{isShopOpen ? "OPEN" : "CLOSED"}</button></div></div>
+        <div><h2 className="text-2xl font-bold">Admin Dashboard</h2><div className="flex items-center gap-2 mt-2"><span className="text-sm opacity-80">Shop Status:</span><button onClick={toggleShopStatus} className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold transition-colors ${isShopOpen ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>{isShopOpen ? <div className="flex items-center gap-1"><CheckCircle size={14}/> OPEN</div> : <div className="flex items-center gap-1"><X size={14}/> CLOSED</div>}</button></div></div>
         <button onClick={handleLogout} className="bg-white/10 p-2 rounded-lg hover:bg-white/20"><LogOut /></button>
       </div>
 
