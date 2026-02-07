@@ -45,6 +45,7 @@ const WEIGHT_VARIANTS = [
 const ORDER_STATUSES = ["Pending", "Accepted", "Packed", "Out for Delivery", "Ready for Pickup", "Completed", "Cancelled"];
 
 // --- Firebase Initialization ---
+// Hardcoded to ensure stability across all environments (Preview & Vercel)
 const firebaseConfig = {
   apiKey: "AIzaSyB-yMrlMnPcEYJrg38qH_XQjJBpN69Eqyk",
   authDomain: "arihant-provision-stores.firebaseapp.com",
@@ -516,11 +517,15 @@ const App = () => {
 
   useEffect(() => {
     if (!db || !firebaseUser || !user || user.role !== 'customer') return;
-    const q = collection(db, 'orders');
+    
+    // Updated Query: Strictly check for user's own orders
+    const q = query(collection(db, 'orders'), where("userId", "==", user.uid));
+    
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const myUserOrders = allOrders.filter(o => o.userId === user.uid).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-      setMyOrders(myUserOrders);
+      // Sort client-side to avoid index requirement errors
+      const sortedOrders = allOrders.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+      setMyOrders(sortedOrders);
     }, (error) => console.error("Customer order fetch error", error));
     return () => unsubscribe();
   }, [user, firebaseUser]);
