@@ -3,8 +3,8 @@ import {
   ShoppingBag, Search, Plus, Minus, X, Store, Package, CreditCard, 
   Menu, Trash2, User, Settings, LogOut, LayoutDashboard, TrendingUp, 
   Clock, MapPin, Phone, ArrowLeft, Edit, Save, LogIn, Eye, EyeOff,
-  ChevronRight, CheckCircle, AlertCircle, Loader, Scale, Truck, ShoppingBasket,
-  ToggleLeft, ToggleRight, Smartphone, KeyRound, Image as ImageIcon, Printer
+  ChevronRight, CheckCircle, AlertCircle, Loader, Scale, Truck,
+  Lock, Printer
 } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { 
@@ -222,7 +222,7 @@ const CheckoutView = ({ user, cart, onClose, placeOrder, cartTotal }) => {
                 <h3 className="text-xl font-bold mb-4">Order Type</h3>
                 <div className="flex gap-4">
                   <button onClick={() => setDeliveryType('delivery')} className={`flex-1 p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${deliveryType === 'delivery' ? 'border-orange-600 bg-orange-50 text-orange-700' : 'border-slate-100 bg-white text-slate-400'}`}><Truck size={24} /><span className="font-bold text-sm">Delivery</span></button>
-                  <button onClick={() => setDeliveryType('takeaway')} className={`flex-1 p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${deliveryType === 'takeaway' ? 'border-orange-600 bg-orange-50 text-orange-700' : 'border-slate-100 bg-white text-slate-400'}`}><ShoppingBasket size={24} /><span className="font-bold text-sm">Takeaway</span></button>
+                  <button onClick={() => setDeliveryType('takeaway')} className={`flex-1 p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${deliveryType === 'takeaway' ? 'border-orange-600 bg-orange-50 text-orange-700' : 'border-slate-100 bg-white text-slate-400'}`}><ShoppingBag size={24} /><span className="font-bold text-sm">Takeaway</span></button>
                 </div>
               </div>
               <div className="space-y-4">
