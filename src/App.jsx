@@ -4,7 +4,7 @@ import {
   Menu, Trash2, User, Settings, LogOut, LayoutDashboard, TrendingUp, 
   Clock, MapPin, Phone, ArrowLeft, Edit, Save, LogIn, Eye, EyeOff,
   ChevronRight, CheckCircle, AlertCircle, Loader, Scale, Truck, ShoppingBasket,
-  Lock, Printer
+  Lock, Printer, KeyRound, Smartphone
 } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { 
@@ -517,13 +517,11 @@ const App = () => {
 
   useEffect(() => {
     if (!db || !firebaseUser || !user || user.role !== 'customer') return;
-    // Updated: Properly filter by current user to match security rules
-    const q = query(collection(db, 'orders'), where("userId", "==", user.uid));
+    const q = collection(db, 'orders');
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      // Client side sort since composite index might not exist yet
-      const sortedOrders = allOrders.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-      setMyOrders(sortedOrders);
+      const myUserOrders = allOrders.filter(o => o.userId === user.uid).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+      setMyOrders(myUserOrders);
     }, (error) => console.error("Customer order fetch error", error));
     return () => unsubscribe();
   }, [user, firebaseUser]);
