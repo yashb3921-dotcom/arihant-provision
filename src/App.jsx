@@ -4,7 +4,7 @@ import {
   Menu, Trash2, User, Settings, LogOut, LayoutDashboard, TrendingUp, 
   Clock, MapPin, Phone, ArrowLeft, Edit, Save, LogIn, Eye, EyeOff,
   ChevronRight, CheckCircle, AlertCircle, Loader, Scale, Truck, ShoppingBasket,
-  Smartphone, Lock, Printer
+  Smartphone, Lock, Printer, KeyRound
 } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { 
@@ -45,7 +45,6 @@ const WEIGHT_VARIANTS = [
 const ORDER_STATUSES = ["Pending", "Accepted", "Packed", "Out for Delivery", "Ready for Pickup", "Completed", "Cancelled"];
 
 // --- Firebase Initialization ---
-// Using hardcoded values to ensure 100% stability in both Preview and Vercel.
 const firebaseConfig = {
   apiKey: "AIzaSyB-yMrlMnPcEYJrg38qH_XQjJBpN69Eqyk",
   authDomain: "arihant-provision-stores.firebaseapp.com",
@@ -116,7 +115,7 @@ const ProductDetailView = ({ selectedProduct, onClose, addToCart, user, setView 
     if (!isWeighable) return selectedProduct.price;
     if (selectedVariant?.label === 'Custom') {
       if (!customGrams) return 0;
-      return Math.ceil((selectedProduct.price / 1000) * parseInt(customGrams || 0)); 
+      return Math.ceil((selectedProduct.price / 1000) * parseInt(customGrams || 0)); // Safety check for NaN
     }
     return Math.ceil(selectedProduct.price * (selectedVariant?.multiplier || 1));
   }, [selectedVariant, customGrams, selectedProduct]);
