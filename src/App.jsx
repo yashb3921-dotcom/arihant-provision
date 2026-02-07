@@ -45,7 +45,6 @@ const WEIGHT_VARIANTS = [
 const ORDER_STATUSES = ["Pending", "Accepted", "Packed", "Out for Delivery", "Ready for Pickup", "Completed", "Cancelled"];
 
 // --- Firebase Initialization ---
-// Hardcoded to ensure stability across all environments (Preview & Vercel)
 const firebaseConfig = {
   apiKey: "AIzaSyB-yMrlMnPcEYJrg38qH_XQjJBpN69Eqyk",
   authDomain: "arihant-provision-stores.firebaseapp.com",
