@@ -4,7 +4,7 @@ import {
   Menu, Trash2, User, Settings, LogOut, LayoutDashboard, TrendingUp, 
   Clock, MapPin, Phone, ArrowLeft, Edit, Save, LogIn, Eye, EyeOff,
   ChevronRight, CheckCircle, AlertCircle, Loader, Scale, Truck, ShoppingBasket,
-  Smartphone, Lock, Printer, KeyRound
+  Smartphone, Lock, Printer
 } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { 
@@ -63,8 +63,6 @@ try {
   console.error("Firebase init failed:", e);
 }
 
-const appId = 'arihant-store-main'; 
-
 // --- Sub-Components ---
 
 const LandingView = ({ onLoginClick, onGuestClick }) => (
@@ -115,7 +113,7 @@ const ProductDetailView = ({ selectedProduct, onClose, addToCart, user, setView 
     if (!isWeighable) return selectedProduct.price;
     if (selectedVariant?.label === 'Custom') {
       if (!customGrams) return 0;
-      return Math.ceil((selectedProduct.price / 1000) * parseInt(customGrams || 0)); // Safety check for NaN
+      return Math.ceil((selectedProduct.price / 1000) * parseInt(customGrams || 0)); 
     }
     return Math.ceil(selectedProduct.price * (selectedVariant?.multiplier || 1));
   }, [selectedVariant, customGrams, selectedProduct]);
@@ -516,11 +514,13 @@ const App = () => {
 
   useEffect(() => {
     if (!db || !firebaseUser || !user || user.role !== 'customer') return;
-    const q = collection(db, 'orders');
+    // Updated: Properly filter by current user to match security rules
+    const q = query(collection(db, 'orders'), where("userId", "==", user.uid));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const myUserOrders = allOrders.filter(o => o.userId === user.uid).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-      setMyOrders(myUserOrders);
+      // Client side sort since composite index might not exist yet
+      const sortedOrders = allOrders.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+      setMyOrders(sortedOrders);
     }, (error) => console.error("Customer order fetch error", error));
     return () => unsubscribe();
   }, [user, firebaseUser]);
