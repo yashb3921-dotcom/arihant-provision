@@ -4,7 +4,7 @@ import {
   Menu, Trash2, User, Settings, LogOut, LayoutDashboard, TrendingUp, 
   Clock, MapPin, Phone, ArrowLeft, Edit, Save, LogIn, Eye, EyeOff,
   ChevronRight, CheckCircle, AlertCircle, Loader, Scale, Truck, ShoppingBasket,
-  Lock, Printer, KeyRound, Smartphone
+  Smartphone, Lock, Printer
 } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { 
@@ -20,20 +20,12 @@ import {
 // --- Configuration & Constants ---
 const STORE_INFO = {
   name: "Arihant Provision Stores",
-  phone: "+91 9881469046",
+  phone: "9881469046",
   address: "Behind K.K. Hospital, Markal Road, Alandi Devachi, Pune",
   owner: "Devichand"
 };
 
-const INITIAL_PRODUCTS = [
-  { id: '1', name: "Premium Basmati Rice", price: 120, category: "Grains", image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400", unit: "1 kg", stock: 50, description: "Aromatic, long-grain basmati rice perfect for biryani and pulao." },
-  { id: '2', name: "Organic Turmeric Powder", price: 220, category: "Spices", image: "https://images.unsplash.com/photo-1615485290382-441e4d0c9cb5?w=400", unit: "1 kg", stock: 100, description: "Pure organic turmeric with high curcumin content." },
-  { id: '3', name: "Pure Cow Ghee", price: 650, category: "Dairy", image: "https://images.unsplash.com/photo-1589927986089-35812388d1f4?w=400", unit: "1 ltr", stock: 25, description: "Homemade style pure cow ghee." },
-  { id: '4', name: "Moong Dal (Yellow)", price: 110, category: "Pulses", image: "https://images.unsplash.com/photo-1585994192561-9a994f245517?w=400", unit: "1 kg", stock: 40, description: "Polished yellow moong dal, rich in protein." },
-  { id: '5', name: "Whole Black Pepper", price: 800, category: "Spices", image: "https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=400", unit: "1 kg", stock: 60, description: "Spicy and aromatic whole black peppercorns." },
-  { id: '6', name: "Sugar (S-30)", price: 42, category: "Essentials", image: "https://images.unsplash.com/photo-1581441363689-1f3c3c414635?w=400", unit: "1 kg", stock: 200, description: "Refined white sugar for daily use." },
-];
-
+// Removed Hardcoded Products so you only see Real Data
 const CATEGORIES = ["All", "Grains", "Spices", "Pulses", "Dairy", "Essentials", "Snacks"];
 const WEIGHT_VARIANTS = [
   { label: '250g', multiplier: 0.25 },
@@ -45,7 +37,6 @@ const WEIGHT_VARIANTS = [
 const ORDER_STATUSES = ["Pending", "Accepted", "Packed", "Out for Delivery", "Ready for Pickup", "Completed", "Cancelled"];
 
 // --- Firebase Initialization ---
-// Hardcoded to ensure stability across all environments (Preview & Vercel)
 const firebaseConfig = {
   apiKey: "AIzaSyB-yMrlMnPcEYJrg38qH_XQjJBpN69Eqyk",
   authDomain: "arihant-provision-stores.firebaseapp.com",
@@ -116,7 +107,7 @@ const ProductDetailView = ({ selectedProduct, onClose, addToCart, user, setView 
     if (!isWeighable) return selectedProduct.price;
     if (selectedVariant?.label === 'Custom') {
       if (!customGrams) return 0;
-      return Math.ceil((selectedProduct.price / 1000) * parseInt(customGrams || 0)); // Safety check for NaN
+      return Math.ceil((selectedProduct.price / 1000) * parseInt(customGrams || 0)); 
     }
     return Math.ceil(selectedProduct.price * (selectedVariant?.multiplier || 1));
   }, [selectedVariant, customGrams, selectedProduct]);
