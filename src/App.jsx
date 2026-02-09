@@ -4,7 +4,7 @@ import {
   Menu, Trash2, User, Settings, LogOut, LayoutDashboard, TrendingUp, 
   Clock, MapPin, Phone, ArrowLeft, Edit, Save, LogIn, Eye, EyeOff,
   ChevronRight, CheckCircle, AlertCircle, Loader, Scale, Truck, ShoppingBasket,
-  Smartphone, Lock, Printer
+  Smartphone, Lock, Printer, KeyRound
 } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { 
@@ -26,6 +26,9 @@ const STORE_INFO = {
 };
 
 // Removed Hardcoded Products so you only see Real Data
+// Define as empty array to prevent ReferenceError if DB is empty
+const INITIAL_PRODUCTS = [];
+
 const CATEGORIES = ["All", "Grains", "Spices", "Pulses", "Dairy", "Essentials", "Snacks"];
 const WEIGHT_VARIANTS = [
   { label: '250g', multiplier: 0.25 },
